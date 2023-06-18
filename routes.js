@@ -46,6 +46,33 @@ router.post("/add/", async function(req, res, next) {
   }
 });
 
+
+router.get('/search', async (req,res,next)=>{
+
+
+  return res.render('search_form.html');
+})
+
+
+
+router.post('/search', async (req,res,next)=>{
+
+try {
+      let first_name = req.body.firstName;
+      let last_name = req.body.lastName;
+
+      const customer = await Customer.searchCustomer(first_name,last_name);
+       
+       return res.redirect(`/${customer.id}/`);
+}
+  catch(err){
+    return next(err)
+  }
+
+
+})
+
+
 /** Show a customer, given their ID. */
 
 router.get("/:id/", async function(req, res, next) {
